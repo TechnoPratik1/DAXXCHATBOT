@@ -8,24 +8,22 @@ import re
 import asyncio
 import time
 from datetime import datetime
-#from database.users_chats_db import db
 
 API_ID = "25450075"
 API_HASH = "278e22b00d6dd565c837405eda49e6f2"
-BOT_TOKEN = os.environ.get("BOT_TOKEN", None) 
+BOT_TOKEN = os.environ.get("BOT_TOKEN", None)
 MONGO_URL = "mongodb+srv://kuldiprathod2003:kuldiprathod2003@cluster0.wxqpikp.mongodb.net/?retryWrites=true&w=majority"
-DATABASE_NAME = os.environ.get("DATABASE_NAME") 
+DATABASE_NAME = os.environ.get("DATABASE_NAME")
 BOT_USERNAME = os.environ.get("BOT_USERNAME")
 BOT_NAME = os.environ.get("BOT_NAME")
 ADMINS = os.environ.get("ADMINS")
 
 bot = Client(
-    "VickBot" ,
-    api_id = API_ID,
-    api_hash = API_HASH ,
-    bot_token = BOT_TOKEN
+    "VickBot",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=BOT_TOKEN
 )
-
 
 async def is_admins(chat_id: int):
     return [
@@ -35,32 +33,58 @@ async def is_admins(chat_id: int):
         )
     ]
 
-
-EMOJIOS = [ 
-      "🌿",
-      "⚡",
+EMOJIOS = [
+    "🌿",
+    "⚡",
 ]
-      
+
 START = f"""
-**๏ Hie Baby🐒 ๏**
+**Discover our AI Chat Bot on Telegram – enjoy rapid, abuse-free responses, easy and friendly conversations, just like chatting with friends. Prioritize a healthy, enjoyable chat experience with our AI companion.**
 """
 
-@bot.on_message(filters.command(["start", "aistart", f"start@{BOT_USERNAME}"]))
+@bot.on_message(filters.command(["start", f"start@{BOT_USERNAME}"]))
 async def restart(client, m: Message):
-    accha = await m.reply_text(
-                text = random.choice(EMOJIOS),
+    # Send the image with the description
+    await m.reply_photo(
+        photo="https://te.legra.ph/file/4ec5ae4381dffb039b4ef.jpg",
+        caption=START,
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [InlineKeyboardButton(
+                    text="Aᴅᴅ ᴍᴇ ʏᴏᴜʀ Gʀᴏᴜᴘ Bᴀʙʏ",
+                    url="http://t.me/Your_Love_Chat_Bot?startgroup=true"
+                )],
+                [
+                    InlineKeyboardButton(
+                        text="Sᴜᴘᴘᴏʀᴛ Gʀᴏᴜᴘ",
+                        url="http://t.me/Online_Hacking_Group"
+                    ),
+                    InlineKeyboardButton(
+                        text="Sᴜᴘᴘᴏʀᴛ Cʜᴀɴɴᴇʟ",
+                        url="http://t.me/Learn_Online_Hacking"
+                    )
+                ],
+                [InlineKeyboardButton(
+                    text="Oᴡɴᴇʀ",
+                    url="http://t.me/Techno_Pratik"
+                )]
+            ]
+        )
     )
-    await asyncio.sleep(1)
-    await accha.edit("𝐒𝐭𝐚𝐫𝐭𝐢𝐧𝐠..")
-    await asyncio.sleep(0.1)
-    await accha.edit("𝐒𝐭𝐚𝐫𝐭𝐢𝐧𝐠...")
-    await asyncio.sleep(0.1)
-    await accha.edit("𝐒𝐭𝐚𝐫𝐭𝐢𝐧𝐠....")
-    await asyncio.sleep(0.1)
-    await accha.edit("𝐒𝐭𝐚𝐫𝐭𝐞𝐝.✓")
-    await asyncio.sleep(0.2)
-    await accha.edit("𝐒𝐭𝐚𝐫𝐭")
-       
+
+    # Create an InlineKeyboardMarkup containing the buttons
+    markup = InlineKeyboardMarkup(
+        [
+            [first_row_button],
+            second_row_buttons,
+            [third_row_button]
+        ]
+    )
+
+    await m.reply_text(text=START, reply_markup=markup)
+
+bot.run()
+
 @bot.on_message(
     filters.command(["chatbot off", f"chatbot@{BOT_USERNAME} off"], prefixes=["/", ".", "?", "-"])
     & ~filters.private)
